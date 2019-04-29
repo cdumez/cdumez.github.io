@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<b>Malicious ad from third-party origin. Redirecting top frame in <span id="countdown">3</span>s...</b>
+<script>
+    if (top !== self) {
+        delayInSeconds = 3;
+        handle = setInterval(() => {
+            delayInSeconds = delayInSeconds - 1;
+            countdown.innerText = "" + delayInSeconds;
+            if (!delayInSeconds)
+                clearInterval(handle);
+        }, 1000);
+        setTimeout(() => {
+            let params = new URLSearchParams(document.location.search.substring(1));
+            top.location = params.get("dest");
+        }, delayInSeconds * 1000);
+    }
+</script>
+</body>
+</html>
